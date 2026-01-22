@@ -1,0 +1,6 @@
+Na classe 'Produtos' foram criados os atributos 'id_produto' (para identificar o produto),'nome' (nome do produto),
+'preco' (para o valor do produto), 'categoria' (para classificar e organizar os produtos por categorias).
+
+Função 'novo_produto': Cria o produto que será adicionado, retornando os respectivos atributos que será descrito pelo usuário.
+Função 'nova_categoria': Cria uma nova categoria e adiciona na lista de categorias ('list_categoria').
+Função 'atualizar_estoque': Gerencia o estoque de um determinado produto, podendo adicionar ao estoque ou remover do estoque quando vendida,
