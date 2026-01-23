@@ -41,37 +41,58 @@ class Produto:
             return 'Erro inesperado'
 
 class GerenciamentoEstoque:
-    
-    def atualizar_estoque (self, qtd_vendida, qtd_reposicao):
-        if qtd_vendida > self.qtd_estoque:
-            return 'Estoque insuficiente'
-        elif qtd_vendida <= self.qtd_estoque:
-            self.qtd_estoque -= qtd_vendida
-            return self.qtd_estoque
-        elif qtd_reposicao > 0:
-            self.qtd_estoque += qtd_reposicao
-            return self.qtd_estoque
+    def __init__(self, qtd_reposicao, id_produto_estoque):
+        self.qtd_reposicao = qtd_reposicao
+        self.id_produto_estoque = id_produto_estoque
+        
+    def atualizar_estoque (self):
+        self.id_produto_estoque = int(input('ID do produto para atualizar o estoque: '))
+        if self.id_produto_estoque in Produto.produtos_cadastrados:
+            qtd_reposicao = int(input('Quantidade para reposição: '))
+            if qtd_reposicao > 0:
+                Produto.qtd_estoque += qtd_reposicao
+                return Produto.qtd_estoque
+            else:
+                return 'Quantidade inválida para reposição'
         else:
-            return 'Quantidade inválida'
+            return 'Produto não encontrado no estoque'
 
 class Venda:
     def __init__(self, id_venda, qtd_venda, desconto):
+        self.vendas = []
         self.id_venda = id_venda
         self.qtd_venda = qtd_venda
         self.desconto = desconto
 
 
     def vender (self): 
-        self.id_venda += 1
+        self.id_venda
         
 
 class Cliente:
     
-    def __init__(self, id_cliente, nome_cliente, historico_compras, CPF, pontos):
+    def __init__(self, id_cliente, nome_cliente, CPF, pontos):
         self.id_cliente = id_cliente
         self.nome_cliente = nome_cliente
-        self.historico_compras = historico_compras
+        self.historico_compras = []
         self.CPF = CPF
         self.pontos = pontos
+        self.cliente_novo = {}
+        self.clientes_cadastrados = []
 
-print('Hello world')
+    def novo_cliente (self):
+        if not self.clientes_cadastrados:
+            novo_id = 1
+        else:
+            ultimo_cliente = self.clientes_cadastrados[-1]
+            novo_id = ultimo_cliente['id_cliente'] + 1
+        self.id_cliente = novo_id
+        self.nome_cliente = str(input('Nome do cliente: '))
+        self.CPF = str(input('CPF do cliente: '))
+        self.cliente_novo = {
+            'id_cliente': self.id_cliente,
+            'nome_cliente': self.nome_cliente,
+            'CPF': self.CPF,
+            'pontos': self.pontos
+        }
+        return self.clientes_cadastrados.append(self.cliente_novo)
