@@ -11,6 +11,7 @@ class Produto:
         self.qtd_estoque = qtd_estoque
         self.categoria_id = categoria_id
     
+
     #Método para inserir um novo produto no banco de dados.
     @staticmethod
     def insert_produto(nome, preco, qtd_estoque, categoria):
@@ -28,16 +29,21 @@ class Produto:
         finally:
             close_connection(connection)
 
-    #Método para criar uma nova categoria no banco de dados, caso a categoria do produto a ser inserido não exista ou queira criar uma nova categoria.
+
+    #Método primeiro busca se já existe categoria na tabela, se existir não cria, caso contrario, cria uma nova categoria no banco de dados.
     @staticmethod
     def criar_categoria(nome_categoria):
         connection = create_connection()
         cursor = connection.cursor()
         try:
-            insert_query = """ INSERT INTO categorias (nome) VALUES (%s)"""
-            cursor.execute(insert_query, (nome_categoria,))
-            connection.commit()
-            print(f"Categoria: {nome_categoria} criada com sucesso na tabela categorias")
+            if Produto.buscar_categoria(nome_categoria):
+                return f"Categoria: {nome_categoria} já existe na tabela categorias"
+
+            else:    
+                insert_query = """ INSERT INTO categorias (nome) VALUES (%s)"""
+                cursor.execute(insert_query, (nome_categoria,))
+                connection.commit()
+                print(f"Categoria: {nome_categoria} criada com sucesso na tabela categorias")
         except Exception as e:
             print(f"Erro ao criar categoria: {e}")
         finally:
@@ -60,6 +66,21 @@ class Produto:
             print(f"Erro ao buscar categoria: {e}")
 
 
+    @staticmethod
+    def listar_produtos():
+        connection = create_connection()
+        cursor = connection.cursor()
+        try:
+            select_query = """ SELECT p.id_produto, p.nome, p.preco, p.qtd_estoque, c.nome AS categoria FROM produtos p JOIN categorias c ON p.categoria_id = c.id"""
+            cursor.execute(select_query)
+            produtos = cursor.fetchall()
+            print("Produtos cadastrados:")
+            for produto in produtos:
+                print(f"ID: {produto[0]}, Nome: {produto[1]}, Preço: {produto[2]}, Quantidade em Estoque: {produto[3]}, Categoria: {produto[4]}")
+        except Exception as e:
+            print(f"Erro ao listar produtos: {e}")
+        finally:
+            close_connection(connection)
 
     # def novo_produto (self, nome, preco, qtd_estoque):
     #     if not produto in self.categoria:
@@ -91,42 +112,6 @@ class Produto:
     #         return 'Categoria já existe'
     #     else:
     #         return 'Erro inesperado'
-
-
-class GerenciamentoEstoque:
-    def __init__(self, qtd_reposicao, id_produto_estoque):
-        self.qtd_reposicao = qtd_reposicao
-        self.id_produto_estoque = id_produto_estoque
-        
-    def atualizar_estoque (self):
-        self.id_produto_estoque = int(input('ID do produto para atualizar o estoque: '))
-        if self.id_produto_estoque in Produto.produtos_cadastrados:
-            qtd_reposicao = int(input('Quantidade para reposição: '))
-            if qtd_reposicao > 0:
-                Produto.qtd_estoque += qtd_reposicao
-                return Produto.qtd_estoque
-            else:
-                return 'Quantidade inválida para reposição'
-        else:
-            return 'Produto não encontrado no estoque'
-
-class Venda:
-    def buscar_produto_venda(self):
-        self.id_produto_venda = id_produto_venda
-        if self.id_produto_venda in Produto.produtos_cadastrados:
-            return Produto.produtos_cadastrados[self.id_produto_venda]
-        else:
-            return 'Produto não encontrado para venda'
-        
-    def __init__(self, id_venda, qtd_venda, desconto):
-        self.id_venda = id_venda
-        self.qtd_venda = qtd_venda
-        self.desconto = desconto
-
-
-    def vender (self): 
-        self.id_venda
-        
 
 class Cliente:
     
