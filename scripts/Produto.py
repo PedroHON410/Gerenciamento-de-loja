@@ -65,7 +65,7 @@ class Produto:
         except Exception as e:
             print(f"Erro ao buscar categoria: {e}")
 
-
+    #Método para listar os produtos cadastrados no banco de dados, exibindo as informações do produto, como nome, preço, quantidade em estoque e categoria.
     @staticmethod
     def listar_produtos():
         connection = create_connection()
