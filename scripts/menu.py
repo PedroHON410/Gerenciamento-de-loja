@@ -4,12 +4,13 @@ from Produto import Venda
 class GerenciamentoLoja:
     def menu_principal(escolha):
 
-    print("Sistema de Gerenciamento de Loja")
-    print("1 - Gerenciar Produtos")
-    print("2 - Gerenciar Vendas")
-    print("3 - Gerenciar Clientes")
-    print("4 - Gerenciamento de Estoque")
-    print("0 - Sair")
+        print("Sistema de Gerenciamento de Loja")
+        print("1 - Gerenciar Produtos")
+        print("2 - Gerenciar Vendas")
+        print("3 - Gerenciar Clientes")
+        print("4 - Gerenciamento de Estoque")
+        print("0 - Sair")
+        
     escolha = int(input("Escolha uma opção (1-4): "))
     if escolha == '1':
         print("Gerenciamento de Produtos selecionado.")
