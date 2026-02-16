@@ -1,27 +1,23 @@
+from db_gerenciamento import close_connection, create_connection
 class Cliente:
     
-    def __init__(self, id_cliente, nome_cliente, CPF, pontos):
-        self.id_cliente = id_cliente
+    def __init__(self, nome_cliente, CPF, qtd_compras, faltando_pagar):
         self.nome_cliente = nome_cliente
-        self.historico_compras = []
         self.CPF = CPF
-        self.pontos = pontos
-        self.cliente_novo = {}
-        self.clientes_cadastrados = []
+        self.qtd_compras = qtd_compras
+        self.faltando_pagar = faltando_pagar
 
-    def novo_cliente (self):
-        if not self.clientes_cadastrados:
-            novo_id = 1
-        else:
-            ultimo_cliente = self.clientes_cadastrados[-1]
-            novo_id = ultimo_cliente['id_cliente'] + 1
-        self.id_cliente = novo_id
-        self.nome_cliente = str(input('Nome do cliente: '))
-        self.CPF = str(input('CPF do cliente: '))
-        self.cliente_novo = {
-            'id_cliente': self.id_cliente,
-            'nome_cliente': self.nome_cliente,
-            'CPF': self.CPF,
-            'pontos': self.pontos
-        }
-        return self.clientes_cadastrados.append(self.cliente_novo)
+
+    def novo_cliente (self, nome_cliente, CPF, qtd_compras, faltando_pagar):
+        connection = create_connection()
+        cursor = connection.cursor()
+        try:
+            insert_query = """ INSERT INTO clientes (nome, CPF, qtd_compras, faltando_pagar) VALUES (%s, %s, %s, %s)"""
+            values = (self.nome_cliente, self.CPF, self.qtd_compras, self.faltando_pagar)
+            cursor.execute(insert_query, values)
+            connection.commit()
+            print(f"Cliente {self.nome_cliente} inserido com sucesso na tabela clientes")
+        except Exception as e:
+            print(f"Erro ao inserir cliente: {e}")
+        finally:
+            close_connection(connection)
