@@ -8,7 +8,7 @@ class Cliente:
         self.faltando_pagar = faltando_pagar
 
 
-    def novo_cliente (self, nome_cliente, CPF, qtd_compras, faltando_pagar):
+    def novo_cliente (self):
         connection = create_connection()
         cursor = connection.cursor()
         try:
