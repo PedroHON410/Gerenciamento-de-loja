@@ -13,14 +13,13 @@ class Produto:
     
 
     #Método para inserir um novo produto no banco de dados.
-    @staticmethod
-    def insert_produto(nome, preco, qtd_estoque, categoria):
+    def insert_produto(self):
         connection = create_connection()
         cursor = connection.cursor()
         try:
             insert_query = """ INSERT INTO produtos (nome, preco, qtd_estoque, categoria_id) VALUES (%s, %s, %s, %s)"""
             #Values é uma tupla que contém os valores a serem inseridos na tabela produtos, sendo mais fácil de ler ou alterar futuramente.
-            values = (nome, preco, qtd_estoque, categoria)
+            values = (self.nome, self.preco, self.qtd_estoque, self.categoria_id)
             cursor.execute(insert_query, values)
             connection.commit()
             print("Produto inserido com sucesso na tabela produtos")
@@ -31,7 +30,6 @@ class Produto:
 
 
     #Método primeiro busca se já existe categoria na tabela, se existir não cria, caso contrario, cria uma nova categoria no banco de dados.
-    @staticmethod
     def criar_categoria(nome_categoria):
         connection = create_connection()
         cursor = connection.cursor()
@@ -52,7 +50,6 @@ class Produto:
 
     #Método para buscar o id da categoria no banco de dados, para relacionar o produto com a categoria correta. 
     #O método retorna o id da categoria encontrada ou None se a categoria não for encontrada.
-    @staticmethod
     def buscar_categoria(categoria):
         connection = create_connection()
         cursor = connection.cursor()
@@ -82,33 +79,3 @@ class Produto:
         finally:
             close_connection(connection)
 
-    # def novo_produto (self, nome, preco, qtd_estoque):
-    #     if not produto in self.categoria:
-    #         novo_id = 1
-    #     else:
-    #         ultimo_produto = self.categoria[-1]
-    #         novo_id = ultimo_produto['id'] + 1
-    #     self.nome = nome
-    #     self.preco = preco
-    #     self.qtd_estoque = qtd_estoque
-    #     self.produto_novo = {
-    #         'id': self.id_produto,
-    #         'nome': self.nome,
-    #         'preco': self.preco,
-    #         'qtd_estoque': self.qtd_estoque
-    #     }
-    #     buscar_categoria = str(input('Categoria do produto: '))
-    #     if buscar_categoria in self.list_categoria:
-    #         return self.list_categoria[buscar_categoria].append(self.produto_novo)
-    #     else:
-    #         return 'Categoria não encontrada. Por favor, crie a categoria primeiro.'
-
-    # def nova_categoria (self):
-    #     nova_categoria = str(input('Nome da categoria: '))
-    #     if nova_categoria not in self.list_categoria:
-    #         self.list_categoria[nova_categoria] = []
-    #         return self.list_categoria
-    #     elif nova_categoria in self.list_categoria:
-    #         return 'Categoria já existe'
-    #     else:
-    #         return 'Erro inesperado'
