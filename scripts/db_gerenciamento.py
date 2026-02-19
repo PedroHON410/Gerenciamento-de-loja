@@ -3,15 +3,14 @@ import os
 from psycopg2 import Error
 from dotenv import load_dotenv
 load_dotenv()
-password = os.getenv("DB_PASSWORD")
 def create_connection():
     try:
         connection = psycopg2.connect(
-            user="postgres",
-            password=password,
-            host="localhost",
-            port="5432",
-            database="loja_db"
+            user=os.getenv('DB_USER') ,
+            password=os.getenv('DB_PASSWORD'),
+            host=os.getenv('DB_HOST'),
+            port=os.getenv('DB_PORT'),
+            database=os.getenv('DB_NAME')
         )
         return connection
     except Error as e:
@@ -21,6 +20,4 @@ def create_connection():
 
 def close_connection(connection):
     if connection:
-        connection.close()
-    print("Conexão com o Banco de Dados encerrada.")
-    
+        connection.close()    

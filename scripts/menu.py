@@ -5,7 +5,7 @@ from Venda import Venda
 from Cliente import Cliente
 class GerenciamentoLoja:
 
-    def menu_principal(escolha):
+    def menu_principal():
             print("Sistema de Gerenciamento de Loja")
             print("1 - Gerenciar Produtos")
             print("2 - Gerenciar Vendas")
@@ -14,7 +14,7 @@ class GerenciamentoLoja:
             print("0 - Sair")
             
             escolha = int(input("Escolha uma opção (1-4): "))
-            if escolha == '1':
+            if escolha == 1:
                 print("Gerenciamento de Produtos selecionado.")
                 print('1 - Adicionar Produto')
                 print('2 - Adicionar Categoria')
@@ -36,7 +36,7 @@ class GerenciamentoLoja:
                             print('Categoria não encontrada. Por favor, crie a categoria primeiro.')
                             categoria = str(input('Nome da nova categoria: '))
                             Produto.criar_categoria(categoria)
-                        produto = Produto(nome, preco, qtd_estoque)
+                        produto = Produto(nome, preco, qtd_estoque, categoria_encontrada)
                         produto.insert_produto()
 
 
@@ -57,9 +57,10 @@ class GerenciamentoLoja:
                         print("Retornando ao Menu Principal.")
 
                 
-                    case 4:
+                    case _:
                         print("Opção inválida. Retornando ao Menu Principal.")
-            elif escolha == '2':
+
+            elif escolha == 2:
                 print("Gerenciamento de Vendas selecionado.")
                 produto_nome = str(input("Nome do produto para venda: "))
                 qtd_venda = int(input("Quantidade para venda: "))
@@ -67,7 +68,7 @@ class GerenciamentoLoja:
                 venda = Venda(produto_nome, qtd_venda, desconto)
                 venda.processar_venda()
 
-            elif escolha == '3':
+            elif escolha == 3:
                 print("Gerenciamento de Clientes selecionado.")
                 # Aqui deve ser implementada a função de gerenciamento de clientes, que deve permitir ao usuário adicionar novos clientes
                 #listar clientes existentes e atualizar informações dos clientes.        
@@ -79,7 +80,8 @@ class GerenciamentoLoja:
                         faltando_pagar = float(input("Valor faltando pagar: "))
                         cliente = Cliente(nome_cliente, CPF, qtd_compras, faltando_pagar)
                         cliente.novo_cliente()
-            elif escolha == '4':
+
+            elif escolha == 4:
                 print("Gerenciamento de Estoque selecionado.")
                 # Aqui deve ser implementada a função de gerenciamento de estoque, que deve permitir ao usuário adicionar ou remover estoque de produtos existentes. 
                 # A função deve solicitar o nome do produto e a quantidade a ser adicionada ou removida, e atualizar o estoque do produto no banco de dados.
@@ -94,5 +96,6 @@ class GerenciamentoLoja:
                         qtd_reposicao = int(input("Quantidade para remover: "))
                         estoque = GerenciamentoEstoque(qtd_reposicao, None, nome_produto)
                         estoque.remover_estoque()
-            elif escolha == '0':
+
+            elif escolha == 0:
                 print("Saindo do sistema. Até mais!")
