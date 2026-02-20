@@ -6,6 +6,7 @@ from Cliente import Cliente
 class GerenciamentoLoja:
 
     def menu_principal():
+        while True:
             print("Sistema de Gerenciamento de Loja")
             print("1 - Gerenciar Produtos")
             print("2 - Gerenciar Vendas")
@@ -72,19 +73,18 @@ class GerenciamentoLoja:
                 print("Gerenciamento de Clientes selecionado.")
                 # Aqui deve ser implementada a função de gerenciamento de clientes, que deve permitir ao usuário adicionar novos clientes
                 #listar clientes existentes e atualizar informações dos clientes.        
-                match escolha:
-                    case 1:
-                        nome_cliente = str(input("Nome do cliente: "))
-                        CPF = str(input("CPF: "))
-                        qtd_compras = int(input("Quantidade de compras: "))
-                        faltando_pagar = float(input("Valor faltando pagar: "))
-                        cliente = Cliente(nome_cliente, CPF, qtd_compras, faltando_pagar)
-                        cliente.novo_cliente()
+                nome_cliente = str(input("Nome do cliente: "))
+                CPF = str(input("CPF: "))
+                qtd_compras = int(input("Quantidade de compras: "))
+                faltando_pagar = bool(input("Faltando pagar (True/False): "))
+                cliente = Cliente(nome_cliente, CPF, qtd_compras, faltando_pagar)
+                cliente.novo_cliente()
 
             elif escolha == 4:
                 print("Gerenciamento de Estoque selecionado.")
                 # Aqui deve ser implementada a função de gerenciamento de estoque, que deve permitir ao usuário adicionar ou remover estoque de produtos existentes. 
                 # A função deve solicitar o nome do produto e a quantidade a ser adicionada ou removida, e atualizar o estoque do produto no banco de dados.
+                escolha = int(input("Escolha uma opção: \n1 - Adicionar Estoque\n2 - Remover Estoque: \n"))
                 match escolha:
                     case 1:
                         nome_produto = str(input("Nome do produto para adicionar estoque: "))
@@ -99,3 +99,6 @@ class GerenciamentoLoja:
 
             elif escolha == 0:
                 print("Saindo do sistema. Até mais!")
+                break
+            else:
+                print("Opção inválida. Por favor, escolha uma opção válida (0-4).")
