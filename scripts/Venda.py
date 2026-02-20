@@ -1,5 +1,5 @@
 from db_gerenciamento import create_connection, close_connection
-
+from decimal import Decimal
 class Venda:
     def __init__(self, produto_nome, qtd_venda, desconto=0):
         self.produto_nome = produto_nome
@@ -25,8 +25,9 @@ class Venda:
             self.valor_unitario = produto[1]
 
             # Cálculo correto do desconto percentual
+            desconto_decimal = Decimal(str(self.desconto)) / Decimal("100")
             total_bruto = self.valor_unitario * self.qtd_venda
-            valor_total = total_bruto * (1 - self.desconto / 100)
+            valor_total = total_bruto * (Decimal("1") - desconto_decimal)
 
             # Insere na tabela de vendas
             insert_query = """ 
