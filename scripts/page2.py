@@ -16,10 +16,10 @@
 #         self.label.pack(pady=10)
 
 import customtkinter as ctk
-from tkinter import ttk # Usado para a tabela (Treeview)
-from scripts import Produto 
+from tkinter import ttk
+from Produto import Produto
 
-class page2(ctk.CTk):
+class Page2(ctk.CTk):
     def __init__(self):
         super().__init__()
 
@@ -77,7 +77,7 @@ class page2(ctk.CTk):
         self.cards_frame = ctk.CTkFrame(self.main_frame, fg_color="transparent")
         self.cards_frame.pack(fill="x", pady=10)
         
-        self.card1 = self.criar_card(self.cards_frame, "Total Produtos", "123")
+        self.card1 = self.criar_card(self.cards_frame, "Total Produtos",Produto.total_produtos())
         self.card2 = self.criar_card(self.cards_frame, "Estoque Baixo", "15")
         self.card3 = self.criar_card(self.cards_frame, "Categorias", "23")
 
@@ -117,12 +117,18 @@ class page2(ctk.CTk):
         return card
 
     def carregar_dados_iniciais(self):
-        # Aqui você chamaria o seu método Produto.listar_produtos()
-        # Exemplo de preenchimento manual para teste visual:
-        exemplo_dados = [
-            ("3833", "Smartphone", "Eletrônicos", "2500.00", "50"),
-            ("6432", "Laptop", "Informática", "4500.00", "12"),
-            ("5438", "Headphones", "Acessórios", "299.00", "30")
-        ]
-        for item in exemplo_dados:
-            self.tabela.insert("", "end", values=item)
+        for i in self.tabela.get_children():
+            self.tabela.delete(i)
+
+        # Chama o método que agora RETORNA a lista
+        dados_do_banco = Produto.listar_produtos()
+        
+        for item in dados_do_banco:
+            # item[0]=ID, item[1]=Nome, item[2]=Categoria, item[3]=Preço, item[4]=Estoque
+            self.tabela.insert("", "end", values=(
+                item[0], 
+                item[1], 
+                item[2], 
+                f"R$ {item[3]:.2f}", 
+                item[4]
+            ))
