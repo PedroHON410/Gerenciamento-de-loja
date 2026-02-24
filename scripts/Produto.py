@@ -68,14 +68,35 @@ class Produto:
         connection = create_connection()
         cursor = connection.cursor()
         try:
-            select_query = """ SELECT p.id_produto, p.nome, p.preco, p.qtd_estoque, c.nome AS categoria FROM produtos p JOIN categorias c ON p.categoria_id = c.id"""
+            select_query = """ 
+                SELECT p.id, p.nome, c.nome, p.preco, p.qtd_estoque 
+                FROM produtos p 
+                JOIN categorias c ON p.categoria_id = c.id
+            """
             cursor.execute(select_query)
+            # Retorna todos os registros como uma lista de tuplas
             produtos = cursor.fetchall()
-            print("Produtos cadastrados:")
-            for produto in produtos:
-                print(f"ID: {produto[0]}, Nome: {produto[1]}, Preço: {produto[2]}, Quantidade em Estoque: {produto[3]}, Categoria: {produto[4]}")
+            for item in produtos:
+                print(f"ID: {item[0]}, Nome: {item[1]}, Categoria: {item[2]}, Preço: R$ {item[3]:.2f}, Estoque: {item[4]}")
+            return produtos 
+        
         except Exception as e:
             print(f"Erro ao listar produtos: {e}")
+            return [] # Retorna lista vazia em caso de erro para não quebrar a interface
+        finally:
+            close_connection(connection)
+
+    def total_produtos():
+        connection = create_connection()
+        cursor = connection.cursor()
+        try:
+            select_query = """ SELECT COUNT(*) FROM produtos"""
+            cursor.execute(select_query)
+            total = cursor.fetchone()[0]
+            return total
+        except Exception as e:
+            print(f"Erro ao contar produtos: {e}")
+            return 0
         finally:
             close_connection(connection)
 
