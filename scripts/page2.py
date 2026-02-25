@@ -23,12 +23,12 @@ class Page2(ctk.CTk):
     def __init__(self):
         super().__init__()
 
-        self.title("Sistema de Gestão - Pedro")
+        self.title("Sistema de Gestão de Loja - Produtos")
         self.geometry("1100x600")
         
         # Configuração de Cores
-        self.cor_roxo = "#6A5ACD" # SlateBlue
-        self.cor_roxo_escuro = "#483D8B"
+        self.cor_roxo = "#740E6D" # SlateBlue
+        self.cor_roxo_escuro = "#740E6D"
         
         # Tema e Aparência
         ctk.set_appearance_mode("light")
@@ -87,15 +87,16 @@ class Page2(ctk.CTk):
 
         # Tabela (Treeview) - Para listar os produtos
         self.style = ttk.Style()
-        self.style.configure("Treeview", rowheight=30, font=("Arial", 10))
-        self.style.configure("Treeview.Heading", font=("Arial", 11, "bold"))
+        self.style.configure("Treeview", rowheight=30, font=("Arial", 10), foreground="black")
+        self.style.configure("Treeview.Heading", font=("Arial", 11, "bold"), foreground=self.cor_roxo)
         
-        self.tabela = ttk.Treeview(self.main_frame, columns=("ID", "Nome", "Categoria", "Preço", "Estoque"), show="headings")
+        # Criando a tabela com as colunas ID, Nome, Preço, Estoque e Categoria
+        self.tabela = ttk.Treeview(self.main_frame, columns=("ID", "Nome", "Preço", "Estoque","Categoria"), show="headings")
         self.tabela.heading("ID", text="ID Produto")
         self.tabela.heading("Nome", text="Nome do Item")
-        self.tabela.heading("Categoria", text="Categoria")
-        self.tabela.heading("Preço", text="Preço (R$)")
+        self.tabela.heading("Preço", text="Preço")
         self.tabela.heading("Estoque", text="Estoque")
+        self.tabela.heading("Categoria", text="Categoria")
         
         # Ajuste de largura das colunas
         self.tabela.column("ID", width=80)
@@ -128,7 +129,6 @@ class Page2(ctk.CTk):
             self.tabela.insert("", "end", values=(
                 item[0], 
                 item[1], 
-                item[2], 
-                f"R$ {item[3]:.2f}", 
-                item[4]
+                f"R$ {item[2]:.2f}", 
+                item[3]
             ))
