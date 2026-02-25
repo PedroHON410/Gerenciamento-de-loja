@@ -64,11 +64,14 @@ class Page1(ctk.CTk):
         self.button3.pack(pady=10)
 
     def gerenciar_produtos(self):
-        from page2 import Page2
-        self.destroy()  # Fecha a janela atual
-        app = Page2()  # Cria a nova janela
-        app.mainloop()  # Inicia o loop da nova janela
-
+        try:
+            from page2 import Page2
+            self.destroy()  # Fecha a janela atual
+            app = Page2()  # Cria a nova janela
+            app.mainloop()  # Inicia o loop da nova janela
+        except ImportError as e:
+            print(f"Erro ao importar Page2: {e}")
+            
 if __name__ == "__main__":
     app = Page1()
     app.mainloop()

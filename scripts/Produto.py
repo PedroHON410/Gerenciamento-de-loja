@@ -69,17 +69,16 @@ class Produto:
         cursor = connection.cursor()
         try:
             select_query = """ 
-                SELECT p.id, p.nome, c.nome, p.preco, p.qtd_estoque 
+                SELECT p.id, p.nome, p.preco, p.qtd_estoque 
                 FROM produtos p 
-                JOIN categorias c ON p.categoria_id = c.id
+                
             """
             cursor.execute(select_query)
             # Retorna todos os registros como uma lista de tuplas
             produtos = cursor.fetchall()
             for item in produtos:
-                print(f"ID: {item[0]}, Nome: {item[1]}, Categoria: {item[2]}, Preço: R$ {item[3]:.2f}, Estoque: {item[4]}")
-            return produtos 
-        
+                print(f"ID: {item[0]}, Nome: {item[1]}, Preço: R$ {item[2]:.2f}, Estoque: {item[3]}")
+            return produtos # Retorna a lista de produtos
         except Exception as e:
             print(f"Erro ao listar produtos: {e}")
             return [] # Retorna lista vazia em caso de erro para não quebrar a interface
