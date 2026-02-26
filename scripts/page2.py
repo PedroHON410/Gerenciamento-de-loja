@@ -87,7 +87,7 @@ class Page2(ctk.CTk):
 
         # Tabela (Treeview) - Para listar os produtos
         self.style = ttk.Style()
-        self.style.configure("Treeview", rowheight=30, font=("Arial", 10), foreground="black")
+        self.style.configure("Treeview", rowheight=30, font=("Arial", 10))
         self.style.configure("Treeview.Heading", font=("Arial", 11, "bold"), foreground=self.cor_roxo)
         
         # Criando a tabela com as colunas ID, Nome, Preço, Estoque e Categoria

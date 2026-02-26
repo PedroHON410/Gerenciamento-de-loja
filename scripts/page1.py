@@ -7,7 +7,7 @@ class Page1(ctk.CTk):
         super().__init__(master)
         
         self.title("Sistema de Controle de Loja")
-        self.geometry("800x700")
+        self.geometry("800x600")
         ctk.set_appearance_mode("light")
         caminho_diretorio = os.path.dirname(os.path.abspath(__file__))
         # Junta o caminho da pasta com o nome do arquivo da imagem
@@ -15,8 +15,8 @@ class Page1(ctk.CTk):
         
         # --- INTERFACE ---
         try:
-            self.image = ctk.CTkImage(Image.open(caminho_imagem), size=(400, 400))
-            self.image_label = ctk.CTkLabel(self, image=self.image, text="")
+            self.image = ctk.CTkImage(Image.open(caminho_imagem), size=(200, 200))
+            self.image_label = ctk.CTkLabel(self, image=self.image, text="", )
         except FileNotFoundError:
             print(f"Erro: O arquivo 'logo.png' não foi encontrado em: {caminho_imagem}")
             self.image_label = ctk.CTkLabel(self, text="[Imagem não encontrada]")
@@ -41,7 +41,7 @@ class Page1(ctk.CTk):
             command=self.gerenciar_produtos
             )
         
-        self.button1.pack(pady=20) 
+        self.button1.pack(pady=10) 
             
         self.button2 = ctk.CTkButton(
             self, 
