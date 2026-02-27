@@ -99,3 +99,16 @@ class Produto:
         finally:
             close_connection(connection)
 
+    def total_estoque():
+        connection = create_connection()
+        cursor = connection.cursor()
+        try:
+            select_query = """ SELECT SUM(qtd_estoque) FROM produtos"""
+            cursor.execute(select_query)
+            total_estoque = cursor.fetchone()[0]
+            return total_estoque
+        except Exception as e:
+            print(f"Erro ao calcular total de estoque: {e}")
+            return 0
+        finally:
+            close_connection(connection)

@@ -18,6 +18,8 @@
 import customtkinter as ctk
 from tkinter import ttk
 from Produto import Produto
+from PIL import Image
+import os
 
 class Page2(ctk.CTk):
     def __init__(self):
@@ -46,7 +48,8 @@ class Page2(ctk.CTk):
         self.sidebar.grid(row=0, column=0, sticky="nsew")
         
         # Logo ou Título
-        self.logo_label = ctk.CTkLabel(self.sidebar, text="LOJA APP", font=ctk.CTkFont(size=20, weight="bold"), text_color="white")
+        self.logo_image = ctk.CTkImage(light_image=Image.open(os.path.join(os.path.dirname(__file__), "logo.png")), size=(100, 100))
+        self.logo_label = ctk.CTkLabel(self.sidebar, image=self.logo_image, text="")
         self.logo_label.pack(pady=30)
 
         # Botões do Menu
@@ -78,7 +81,7 @@ class Page2(ctk.CTk):
         self.cards_frame.pack(fill="x", pady=10)
         
         self.card1 = self.criar_card(self.cards_frame, "Total Produtos",Produto.total_produtos())
-        self.card2 = self.criar_card(self.cards_frame, "Estoque Baixo", "15")
+        self.card2 = self.criar_card(self.cards_frame, "Total Estoque", Produto.total_estoque())
         self.card3 = self.criar_card(self.cards_frame, "Categorias", "23")
 
         # Barra de Busca
@@ -132,3 +135,5 @@ class Page2(ctk.CTk):
                 f"R$ {item[2]:.2f}", 
                 item[3]
             ))
+
+    
