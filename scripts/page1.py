@@ -15,8 +15,9 @@ class Page1(ctk.CTk):
         
         # --- INTERFACE ---
         try:
-            self.image = ctk.CTkImage(Image.open(caminho_imagem), size=(200, 200))
-            self.image_label = ctk.CTkLabel(self, image=self.image, text="", )
+            self.image = ctk.CTkImage(Image.open(caminho_imagem), size=(489, 589))
+            self.image_label = ctk.CTkLabel(self, image=self.image, text="")
+            
         except FileNotFoundError:
             print(f"Erro: O arquivo 'logo.png' não foi encontrado em: {caminho_imagem}")
             self.image_label = ctk.CTkLabel(self, text="[Imagem não encontrada]")
@@ -26,9 +27,10 @@ class Page1(ctk.CTk):
             text="Bem-vindo ao Sistema de Controle de Loja!", 
             font=ctk.CTkFont(size=20, weight="bold")
         )
+
+        # Organizando os widgets
         self.label.pack(pady=10)
-        
-        self.image_label.pack()
+        self.image_label.pack(side="left", padx=0, pady=0)
     
         # Botões
         self.button1 = ctk.CTkButton(
@@ -41,7 +43,7 @@ class Page1(ctk.CTk):
             command=self.gerenciar_produtos
             )
         
-        self.button1.pack(pady=10) 
+        self.button1.pack(side="top",pady=0 ) 
             
         self.button2 = ctk.CTkButton(
             self, 
@@ -51,7 +53,7 @@ class Page1(ctk.CTk):
             fg_color="#740E6D",
             hover_color="#4158D0"
             )
-        self.button2.pack(pady=10)
+        self.button2.pack(side="top", pady=20)
 
         self.button3 = ctk.CTkButton(
             self, 
@@ -61,7 +63,7 @@ class Page1(ctk.CTk):
             fg_color="#740E6D",
                 hover_color="#4158D0"
             )
-        self.button3.pack(pady=10)
+        self.button3.pack(side="top", pady=0)
 
     def gerenciar_produtos(self):
         try:
