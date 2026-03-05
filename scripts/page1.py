@@ -43,7 +43,7 @@ class Page1(ctk.CTk):
             command=self.gerenciar_produtos
             )
         
-        self.button1.pack(side="top",pady=0 ) 
+        self.button1.pack(side="top",pady=0) 
             
         self.button2 = ctk.CTkButton(
             self, 
