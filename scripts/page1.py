@@ -2,6 +2,7 @@ import customtkinter as ctk
 from PIL import Image
 import os
 
+
 class Page1(ctk.CTk):
     def __init__(self, master=None):
         super().__init__(master)
@@ -12,25 +13,26 @@ class Page1(ctk.CTk):
         caminho_diretorio = os.path.dirname(os.path.abspath(__file__))
         # Junta o caminho da pasta com o nome do arquivo da imagem
         caminho_imagem = os.path.join(caminho_diretorio, "logo.png")
-        
+        self.criar_interface()
         # --- INTERFACE ---
-        try:
-            self.image = ctk.CTkImage(Image.open(caminho_imagem), size=(489, 589))
-            self.image_label = ctk.CTkLabel(self, image=self.image, text="")
-            
-        except FileNotFoundError:
-            print(f"Erro: O arquivo 'logo.png' não foi encontrado em: {caminho_imagem}")
-            self.image_label = ctk.CTkLabel(self, text="[Imagem não encontrada]")
+        def criar_interface(self):
+            try:
+                self.image = ctk.CTkImage(Image.open(caminho_imagem), size=(489, 589))
+                self.image_label = ctk.CTkLabel(self, image=self.image, text="")
+                
+            except FileNotFoundError:
+                print(f"Erro: O arquivo 'logo.png' não foi encontrado em: {caminho_imagem}")
+                self.image_label = ctk.CTkLabel(self, text="[Imagem não encontrada]")
 
-        self.label = ctk.CTkLabel(
-            self, 
-            text="Bem-vindo ao Sistema de Controle de Loja!", 
-            font=ctk.CTkFont(size=20, weight="bold")
-        )
+            self.label = ctk.CTkLabel(
+                self, 
+                text="Bem-vindo ao Sistema de Controle de Loja!", 
+                font=ctk.CTkFont(size=20, weight="bold")
+            )
 
-        # Organizando os widgets
-        self.label.pack(pady=10)
-        self.image_label.pack(side="left", padx=0, pady=0)
+            # Organizando os widgets
+            self.label.pack(pady=10)
+            self.image_label.pack(side="left", padx=0, pady=0)
     
         # Botões
         self.button1 = ctk.CTkButton(

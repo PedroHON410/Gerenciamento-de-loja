@@ -55,8 +55,12 @@ class Page2(ctk.CTk):
                                         font=ctk.CTkFont(size=24, weight="bold"), text_color="black")
         self.label_titulo.pack(side="left")
         
-        self.btn_novo = ctk.CTkButton(self.header_frame, text="+ Novo Produto", 
-                                      fg_color=self.cor_roxo, hover_color=self.cor_roxo_escuro)
+        self.btn_novo = ctk.CTkButton(
+            self.header_frame,
+            text="+ Novo Produto", 
+            fg_color=self.cor_roxo, hover_color=self.cor_roxo_escuro, command=self.abrir_tela_novo_produto)
+        
+        
         self.btn_novo.pack(side="right")
 
         # Cards de Resumo (Simulando os 3 cards da foto)
@@ -119,4 +123,10 @@ class Page2(ctk.CTk):
                 item[3]
             ))
 
-    
+    def abrir_tela_novo_produto(self):
+        try:
+            self.destroy()  # Fecha a janela atual
+            app = PageNewProduct()  # Cria a nova janela
+            app.mainloop()  # Inicia o loop da nova janela
+        except ImportError as e:
+            print(f"Erro ao importar PageNewProduct: {e}")
