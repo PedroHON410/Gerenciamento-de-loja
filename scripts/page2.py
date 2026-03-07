@@ -1,26 +1,9 @@
-# import customtkinter as ctk
-# class Page2(ctk.CTk):
-#     def __init__(self, master=None):
-#         super().__init__(master)
-        
-#         self.title("Gerenciar Produtos")
-#         self.geometry("800x700")
-#         ctk.set_appearance_mode("light")
-        
-#         # --- INTERFACE ---
-#         self.label = ctk.CTkLabel(
-#             self, 
-#             text="Gerenciar Produtos", 
-#             font=ctk.CTkFont(size=20, weight="bold")
-#         )
-#         self.label.pack(pady=10)
-
 import customtkinter as ctk
 from tkinter import ttk
 from Produto import Produto
 from PIL import Image
 import os
-
+from pagenewproduct import PageNewProduct
 class Page2(ctk.CTk):
     def __init__(self):
         super().__init__()
