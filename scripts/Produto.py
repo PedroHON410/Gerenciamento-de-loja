@@ -76,8 +76,6 @@ class Produto:
             cursor.execute(select_query)
             # Retorna todos os registros como uma lista de tuplas
             produtos = cursor.fetchall()
-            for item in produtos:
-                print(f"ID: {item[0]}, Nome: {item[1]}, Preço: R$ {item[2]:.2f}, Estoque: {item[3]}")
             return produtos # Retorna a lista de produtos
         except Exception as e:
             print(f"Erro ao listar produtos: {e}")

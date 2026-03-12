@@ -36,7 +36,7 @@ class Page2(ctk.CTk):
         self.logo_label.pack(pady=30)
 
         # Botões do Menu
-        botoes = ["Dashboard", "Produtos", "Vendas", "Clientes", "Configurações"]
+        botoes = ["Página Inicial", "Produtos", "Vendas", "Clientes", "Configurações"]
         for nome in botoes:
             btn = ctk.CTkButton(self.sidebar, text=nome, fg_color="transparent", 
                                 text_color="white", hover_color=self.cor_roxo, anchor="w")
@@ -115,7 +115,6 @@ class Page2(ctk.CTk):
         dados_do_banco = Produto.listar_produtos()
         
         for item in dados_do_banco:
-            # item[0]=ID, item[1]=Nome, item[2]=Categoria, item[3]=Preço, item[4]=Estoque
             self.tabela.insert("", "end", values=(
                 item[0], 
                 item[1], 
@@ -130,3 +129,12 @@ class Page2(ctk.CTk):
             app.mainloop()  # Inicia o loop da nova janela
         except ImportError as e:
             print(f"Erro ao importar PageNewProduct: {e}")
+
+    def voltar_para_dashboard(self):
+        try:
+            from page1 import Page1
+            self.destroy()  # Fecha a janela atual
+            app = Page1()  # Cria a nova janela
+            app.mainloop()  # Inicia o loop da nova janela
+        except ImportError as e:
+            print(f"Erro ao importar Page1: {e}")

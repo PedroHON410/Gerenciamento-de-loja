@@ -17,9 +17,19 @@ class PageNewProduct(ctk.CTk):
         ctk.set_appearance_mode("light")
         # Layout de Grid
         self.grid_columnconfigure(0, weight=1)
-        # Widgets
+        self.criar_widgets()
+    # Widgets
+    def criar_widgets(self):
+        # self.main_frame = ctk.CTkFrame(self, fg_color="white", corner_radius=0)
+        # self.main_frame.grid(row=0, column=1, sticky="nsew", padx=20, pady=20)
+        
+    
+        # self.cards_frame = ctk.CTkFrame(self.main_frame, fg_color="transparent")
+        # self.cards_frame.pack(fill="x", pady=10)
         self.label_titulo = ctk.CTkLabel(self, text="Adicionar Novo Produto", 
                                         font=ctk.CTkFont(size=20, weight="bold"), text_color="black")
         
-        self.label_nome = ctk.CTkLabel(self, text="Nome do Produto:", text_color="black")
-        self.entry_nome = ctk.CTkEntry(self)
+        self.entryNome = ctk.CTkEntry(self, placeholder_text="Nome do Produto", width=400)
+        self.entry_preco = ctk.CTkEntry(self, width=300, placeholder_text="Preço")
+        self.entry_quantidade = ctk.CTkEntry(self, width=300, placeholder_text="Quantidade")
+        
