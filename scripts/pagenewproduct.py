@@ -29,6 +29,7 @@ class PageNewProduct(ctk.CTk):
         self.label_titulo = ctk.CTkLabel(self, text="Adicionar Novo Produto", 
                                         font=ctk.CTkFont(size=20, weight="bold"), text_color="black")
         
+        self.label_titulo.pack(pady=20)
         self.entryNome = ctk.CTkEntry(self, placeholder_text="Nome do Produto", width=400)
         self.entry_preco = ctk.CTkEntry(self, width=300, placeholder_text="Preço")
         self.entry_quantidade = ctk.CTkEntry(self, width=300, placeholder_text="Quantidade")
