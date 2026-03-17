@@ -58,8 +58,8 @@ class PageNewProduct(ctk.CTk):
         self.entry_quantidade.pack(pady=10)
 
         # Categoria (Usando um ComboBox para o usuário escolher categorias existentes)
-        # Aqui depois você pode buscar as categorias do banco com Produto.buscar_categorias()
-        self.combo_categoria = ctk.CTkComboBox(self.container_form, values=["Vestidos", "Saias", "Body"], width=400, height=40)
+        # Aqui depois você pode buscar as categorias do banco com Produto.listar_categorias()
+        self.combo_categoria = ctk.CTkComboBox(self.container_form, values=[cat[1] for cat in Produto.listar_categorias()], width=400, height=40)
         self.combo_categoria.set("Selecione a Categoria")
         self.combo_categoria.pack(pady=10)
 

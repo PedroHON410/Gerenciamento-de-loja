@@ -110,3 +110,31 @@ class Produto:
             return 0
         finally:
             close_connection(connection)
+
+    def listar_categorias():
+        connection = create_connection()
+        cursor = connection.cursor()
+        try:
+            select_query = """ SELECT id, nome FROM categorias"""
+            cursor.execute(select_query)
+            categorias = cursor.fetchall()
+            return categorias
+        except Exception as e:
+            print(f"Erro ao listar categorias: {e}")
+            return []
+        finally:
+            close_connection(connection)
+
+    def total_categorias():
+        connection = create_connection()
+        cursor = connection.cursor()
+        try:
+            select_query = """ SELECT COUNT(*) FROM categorias"""
+            cursor.execute(select_query)
+            total_categorias = cursor.fetchone()[0]
+            return total_categorias
+        except Exception as e:
+            print(f"Erro ao contar categorias: {e}")
+            return 0
+        finally:
+            close_connection(connection)

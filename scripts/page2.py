@@ -69,7 +69,7 @@ class Page2(ctk.CTk):
         
         self.card1 = self.criar_card(self.cards_frame, "Total Produtos",Produto.total_produtos())
         self.card2 = self.criar_card(self.cards_frame, "Total Estoque", Produto.total_estoque())
-        self.card3 = self.criar_card(self.cards_frame, "Categorias", "23")
+        self.card3 = self.criar_card(self.cards_frame, "Categorias", Produto.total_categorias())
 
         # Barra de Busca
         self.search_entry = ctk.CTkEntry(self.main_frame, placeholder_text="Buscar Produto...", width=400)
