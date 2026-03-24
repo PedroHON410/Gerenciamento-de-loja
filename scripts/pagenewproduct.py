@@ -63,6 +63,14 @@ class PageNewProduct(ctk.CTk):
         self.combo_categoria.set("Selecione a Categoria")
         self.combo_categoria.pack(pady=10)
 
+        # Opção para adicionar nova categoria
+        self.lbl_nova_categoria = ctk.CTkLabel(self.container_form, text="Adicionar Nova Categoria", font=("Arial", 14))
+        self.lbl_nova_categoria.pack(pady=(20, 5), anchor="w")
+        self.btn_nova_categoria = ctk.CTkButton(self.container_form, text="Adicionar Categoria", fg_color="#5a0b54", hover_color="#3e043c", command=self.adicionar_categoria)
+        self.btn_nova_categoria.pack(pady=10)
+
+        
+
         # Botão Salvar
         self.btn_salvar = ctk.CTkButton(self.container_form, text="SALVAR PRODUTO", 
                                         fg_color=self.cor_roxo_escuro, 
@@ -110,4 +118,10 @@ class PageNewProduct(ctk.CTk):
         self.destroy()
         from page1 import Page1
         app = Page1()
+        app.mainloop()
+
+    def adicionar_categoria(self):
+        self.destroy()
+        from pagenewcategory import PageNewCategory
+        app = PageNewCategory()
         app.mainloop()
