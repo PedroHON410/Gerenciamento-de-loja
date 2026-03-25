@@ -41,22 +41,6 @@ class PageNewCategory(ctk.CTk):
         self.container_form = ctk.CTkFrame(self, fg_color="transparent")
         self.container_form.grid(row=0, column=1, padx=40, pady=40, sticky="nsew")
 
-        self.lbl_instrucao = ctk.CTkLabel(self.container_form, text="Preencha os dados do produto", font=("Arial", 18, "bold"))
-        self.lbl_instrucao.pack(pady=(0, 20), anchor="w")
-
-        # Nome
-        self.entry_nome = ctk.CTkEntry(self.container_form, placeholder_text="Nome do Produto", width=400, height=40)
-        self.entry_nome.pack(pady=10)
-        
-
-        # Preço
-        self.entry_preco = ctk.CTkEntry(self.container_form, placeholder_text="Preço (Ex: 99.90)", width=400, height=40)
-        self.entry_preco.pack(pady=10)
-
-        # Quantidade
-        self.entry_quantidade = ctk.CTkEntry(self.container_form, placeholder_text="Quantidade em Estoque", width=400, height=40)
-        self.entry_quantidade.pack(pady=10)
-
         # Categoria (Usando um ComboBox para o usuário escolher categorias existentes)
         self.combo_categoria = ttk.Combobox(self.container_form, state="readonly", width=38)
         self.combo_categoria['values'] = [cat[1] for cat in Produto.listar_categorias()]
@@ -68,3 +52,23 @@ class PageNewCategory(ctk.CTk):
         self.entry_nova_categoria.pack(pady=10)
         self.btn_add_categoria = ctk.CTkButton(self.container_form, text="Adicionar Categoria", fg_color="#5a0b54", command=self.adicionar_categoria)
         self.btn_add_categoria.pack(pady=10)
+
+    def voltar_btn(self):
+        self.destroy()
+        from page1 import Page1
+        app = Page1()
+        app.mainloop()
+
+    def adicionar_categoria(self):
+        nova_categoria = self.entry_nova_categoria.get().strip()
+        if not nova_categoria:
+            CTkMessagebox(title="Erro", message="O nome da categoria não pode ser vazio.", icon="error")
+            return
+        
+        if Produto.criar_categoria(nova_categoria):
+            CTkMessagebox(title="Sucesso", message=f"Categoria '{nova_categoria}' adicionada com sucesso!", icon="check")
+            #self.combo_categoria['values'] = [cat[1] for cat in Produto.listar_categorias()]
+            self.entry_nova_categoria.delete(0, 'end')
+        else:
+            CTkMessagebox(title="Erro", message=f"Falha ao adicionar a categoria '{nova_categoria}'. Verifique se já existe ou tente novamente.", icon="error")
+        
