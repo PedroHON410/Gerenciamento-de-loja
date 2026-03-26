@@ -54,14 +54,34 @@ class Produto:
         connection = create_connection()
         cursor = connection.cursor()
         try:
-            select_query = """ SELECT id FROM categorias WHERE nome = %s"""
-            cursor.execute(select_query, (categoria))
+            select_query = """ SELECT nome FROM categorias WHERE nome = %s"""
+            cursor.execute(select_query, (categoria,))
             categoria_result = cursor.fetchone()
             connection.close()
-            return categoria_result[0] if categoria_result else None
+            return categoria_result if categoria_result else None
         except Exception as e:
             print(f"Erro ao buscar categoria: {e}")
 
+    #Método para remover uma categoria do banco de dados, primeiro verifica se a categoria existe, se existir, remove a categoria selecionada.
+    def remover_categoria(nome_categoria):
+        connection = create_connection()
+        cursor = connection.cursor()
+        try:
+            if not Produto.buscar_categoria(nome_categoria):
+                return f"Categoria: {nome_categoria} não existe na tabela categorias"
+
+            else:    
+                delete_query = """ DELETE FROM categorias WHERE nome = %s"""
+                cursor.execute(delete_query, (nome_categoria,))
+                connection.commit()
+                return True
+
+        except Exception as e:
+            print(f"Erro ao remover categoria: {e}")
+            return False
+        finally:
+            close_connection(connection)
+    
     #Método para listar os produtos cadastrados no banco de dados, exibindo as informações do produto, como nome, preço, quantidade em estoque e categoria.
     @staticmethod
     def listar_produtos():
@@ -69,9 +89,9 @@ class Produto:
         cursor = connection.cursor()
         try:
             select_query = """ 
-                SELECT p.id, p.nome, p.preco, p.qtd_estoque 
+                SELECT p.id, p.nome, p.preco, p.qtd_estoque, c.nome AS categoria
                 FROM produtos p 
-                
+                LEFT JOIN categorias c ON p.categoria_id = c.id
             """
             cursor.execute(select_query)
             # Retorna todos os registros como uma lista de tuplas

@@ -53,10 +53,14 @@ class PageNewCategory(ctk.CTk):
         self.btn_add_categoria = ctk.CTkButton(self.container_form, text="Adicionar Categoria", fg_color="#5a0b54", command=self.adicionar_categoria)
         self.btn_add_categoria.pack(pady=10)
 
+
+        self.btn_remover_categoria = ctk.CTkButton(self.container_form, text="Remover Categoria Selecionada", fg_color="#5a0b54", command=self.remover_categoria)
+        self.btn_remover_categoria.pack(pady=10)
+
     def voltar_btn(self):
         self.destroy()
-        from page1 import Page1
-        app = Page1()
+        from pagenewproduct import PageNewProduct
+        app = PageNewProduct()
         app.mainloop()
 
     def adicionar_categoria(self):
@@ -67,8 +71,18 @@ class PageNewCategory(ctk.CTk):
         
         if Produto.criar_categoria(nova_categoria):
             CTkMessagebox(title="Sucesso", message=f"Categoria '{nova_categoria}' adicionada com sucesso!", icon="check")
-            #self.combo_categoria['values'] = [cat[1] for cat in Produto.listar_categorias()]
+            self.combo_categoria['values'] = [cat[1] for cat in Produto.listar_categorias()]
             self.entry_nova_categoria.delete(0, 'end')
         else:
             CTkMessagebox(title="Erro", message=f"Falha ao adicionar a categoria '{nova_categoria}'. Verifique se já existe ou tente novamente.", icon="error")
-        
+    
+    def remover_categoria(self):
+        categoria_selecionada = self.combo_categoria.get()
+        if categoria_selecionada == "Selecione a Categoria":
+              CTkMessagebox(title="Erro", message="Por favor, selecione uma categoria para remover.", icon="error")
+              return
+        if Produto.remover_categoria(categoria_selecionada):
+            CTkMessagebox(title="Sucesso", message=f"Categoria '{categoria_selecionada}' removida com sucesso!", icon="check")
+            self.combo_categoria['values'] = [cat[1] for cat in Produto.listar_categorias()]
+        else:
+            CTkMessagebox(title="Erro", message=f"Falha ao remover a categoria '{categoria_selecionada}'. Verifique se ela existe ou tente novamente.", icon="error")
