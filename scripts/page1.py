@@ -55,7 +55,8 @@ class Page1(ctk.CTk):
             width=200,
             corner_radius=35, 
             fg_color="#740E6D",
-            hover_color="#4158D0"
+            hover_color="#4158D0",
+            command=self.gerenciar_vendas
             )
         self.button2.pack(side="top", pady=20)
 
@@ -77,6 +78,15 @@ class Page1(ctk.CTk):
             app.mainloop()  # Inicia o loop da nova janela
         except ImportError as e:
             print(f"Erro ao importar Page2: {e}")
+
+    def gerenciar_vendas(self):
+        try:
+            from pageVendas import PageVendas
+            self.destroy()  # Fecha a janela atual
+            app = PageVendas()  # Cria a nova janela
+            app.mainloop()  # Inicia o loop da nova janela
+        except ImportError as e:
+            print(f"Erro ao importar PageVendas: {e}")
             
 if __name__ == "__main__":
     app = Page1()
