@@ -66,10 +66,10 @@ class PageNovaVenda(ctk.CTk):
         
         self.card1 = self.criar_card(self.cards_frame, "Total Vendas", Venda.total_vendas())
         self.card2 = self.criar_card(self.cards_frame, "Total Estoque", Produto.total_estoque())
-        self.card3 = self.criar_card(self.cards_frame, "Categorias", Produto.total_categorias())
+        self.card3 = self.criar_card(self.cards_frame, "Total Receita", Venda.total_receita())
 
         # Barra de Busca
-        self.search_entry = ctk.CTkEntry(self.main_frame, placeholder_text="Buscar Produto...", width=400)
+        self.search_entry = ctk.CTkEntry(self.main_frame, placeholder_text="Buscar Venda...", width=400)
         self.search_entry.pack(pady=20, anchor="w")
 
         # Tabela (Treeview) - Para listar os produtos

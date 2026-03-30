@@ -76,4 +76,15 @@ class Venda:
         except Exception as e:
             print(f"Erro ao contar vendas: {e}")
             return 0
+        
+    def total_receita():
+        connection = create_connection()
+        cursor = connection.cursor()
+        try:
+            cursor.execute("SELECT SUM(valor_total) FROM vendas")
+            total = cursor.fetchone()[0]
+            return total if total else 0
+        except Exception as e:
+            print(f"Erro ao calcular receita: {e}")
+            return 0
             
