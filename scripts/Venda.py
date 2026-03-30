@@ -48,3 +48,32 @@ class Venda:
             print(f"Erro ao realizar venda: {e}")
         finally:
             close_connection(connection)
+
+    def listar_vendas():
+        connection = create_connection()
+        cursor = connection.cursor()
+        try:
+            select_query = """
+                SELECT v.id, p.nome, v.qtd_venda, v.desconto, v.valor_total, v.data_venda
+                FROM vendas v
+                JOIN produtos p ON v.id_produto = p.id
+                ORDER BY v.data_venda DESC
+                """
+            cursor.execute(select_query)
+            vendas = cursor.fetchall()
+            return vendas
+        except Exception as e:
+            print(f"Erro ao listar vendas: {e}")
+            return []
+    
+    def total_vendas():
+        connection = create_connection()
+        cursor = connection.cursor()
+        try:
+            cursor.execute("SELECT COUNT(*) FROM vendas")
+            total = cursor.fetchone()[0]
+            return total
+        except Exception as e:
+            print(f"Erro ao contar vendas: {e}")
+            return 0
+            
