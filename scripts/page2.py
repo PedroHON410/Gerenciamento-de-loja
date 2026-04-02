@@ -36,11 +36,15 @@ class Page2(ctk.CTk):
         self.logo_label.pack(pady=30)
 
         # Botões do Menu
-        botoes = ["Página Inicial", "Produtos", "Vendas", "Clientes", "Configurações"]
+        botoes = ["Página Inicial", "Vendas", "Clientes", "Configurações"]
         for nome in botoes:
             btn = ctk.CTkButton(self.sidebar, text=nome, fg_color="transparent", 
                                 text_color="white", hover_color=self.cor_roxo, anchor="w")
             btn.pack(fill="x", padx=20, pady=5)
+            if nome == "Página Inicial":
+                btn.configure(command=self.voltar_para_dashboard)
+            elif nome == "Vendas":
+                btn.configure(command=self.abrir_tela_vendas)
 
     def criar_aba_produtos(self):
         # Frame Principal da Direita
@@ -138,3 +142,12 @@ class Page2(ctk.CTk):
             app.mainloop()  # Inicia o loop da nova janela
         except ImportError as e:
             print(f"Erro ao importar Page1: {e}")
+
+    def abrir_tela_vendas(self):
+        try:
+            from pageVendas import PageVendas
+            self.destroy()  # Fecha a janela atual
+            app = PageVendas()  # Cria a nova janela
+            app.mainloop()  # Inicia o loop da nova janela
+        except ImportError as e:
+            print(f"Erro ao importar PageVendas: {e}")

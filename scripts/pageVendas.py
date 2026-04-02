@@ -1,6 +1,5 @@
 import customtkinter as ctk
 from tkinter import ttk
-from Produto import Produto
 from Venda import Venda
 from PIL import Image
 import os
@@ -123,10 +122,9 @@ class PageVendas(ctk.CTk):
         self.carregar_dados_iniciais()
 
 
-
     def nova_venda(self):
+        from pageNovaVenda import PageNovaVenda
         try:
-            from pageNovaVenda import PageNovaVenda
             self.destroy()  # Fecha a janela atual
             app = PageNovaVenda()  # Cria a nova janela
             app.mainloop()  # Inicia o loop da nova janela

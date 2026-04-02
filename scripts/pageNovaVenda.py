@@ -12,7 +12,7 @@ class PageNovaVenda(ctk.CTk):
 
         self.title("Registrar Nova Venda")
         self.geometry("900x550")
-        self.cor_roxo_escuro = "#740E6D"
+        self.cor_roxo = "#740E6D"
         
         ctk.set_appearance_mode("light")
 
@@ -24,7 +24,7 @@ class PageNovaVenda(ctk.CTk):
         self.aba_vendas()
     def criar_widgets(self):
         # --- SIDEBAR ---
-        self.sidebar = ctk.CTkFrame(self, width=200, corner_radius=0, fg_color=self.cor_roxo_escuro)
+        self.sidebar = ctk.CTkFrame(self, width=200, corner_radius=0, fg_color=self.cor_roxo)
         self.sidebar.grid(row=0, column=0, sticky="nsew")
         
         self.logo_path = os.path.join(os.path.dirname(os.path.abspath(__file__)), "logo.png")
@@ -55,7 +55,7 @@ class PageNovaVenda(ctk.CTk):
         self.btn_novo = ctk.CTkButton(
             self.header_frame,
             text="+ Novo Produto", 
-            fg_color=self.cor_roxo, hover_color=self.cor_roxo_escuro, command=self.abrir_tela_novo_produto)
+            fg_color=self.cor_roxo, hover_color=self.cor_roxo, command=self.abrir_tela_novo_produto)
         
         
         self.btn_novo.pack(side="right")
