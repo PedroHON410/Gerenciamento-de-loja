@@ -5,6 +5,7 @@ from Venda import Venda
 from PIL import Image
 import os
 from Produto import Produto
+from Cliente import Cliente
 
 class PageNovaVenda(ctk.CTk):
     def __init__(self):
@@ -41,61 +42,29 @@ class PageNovaVenda(ctk.CTk):
 
     def aba_vendas(self):
         # --- FORMULÁRIO PRINCIPAL ---
-        self.main_frame = ctk.CTkFrame(self, fg_color="white", corner_radius=0)
-        self.main_frame.grid(row=0, column=1, sticky="nsew", padx=20, pady=20)
-        
-        # Header - Título e Botão Novo
-        self.header_frame = ctk.CTkFrame(self.main_frame, fg_color="transparent")
-        self.header_frame.pack(fill="x", pady=(0, 20))
-        
-        self.label_titulo = ctk.CTkLabel(self.header_frame, text="Gerenciamento de Vendas", 
-                                        font=ctk.CTkFont(size=24, weight="bold"), text_color="black")
-        self.label_titulo.pack(side="left")
-        
-        self.btn_novo = ctk.CTkButton(
-            self.header_frame,
-            text="+ Novo Produto", 
-            fg_color=self.cor_roxo, hover_color=self.cor_roxo, command=self.abrir_tela_novo_produto)
-        
-        
-        self.btn_novo.pack(side="right")
+        self.container_form = ctk.CTkFrame(self, fg_color="transparent")
+        self.container_form.grid(row=0, column=1, padx=40, pady=40, sticky="nsew")
 
-        # Cards de Resumo (Simulando os 3 cards da foto)
-        self.cards_frame = ctk.CTkFrame(self.main_frame, fg_color="transparent")
-        self.cards_frame.pack(fill="x", pady=10)
-        
-        self.card1 = self.criar_card(self.cards_frame, "Total Vendas", Venda.total_vendas())
-        self.card2 = self.criar_card(self.cards_frame, "Total Estoque", Produto.total_estoque())
-        self.card3 = self.criar_card(self.cards_frame, "Total Receita", Venda.total_receita())
+        self.lbl_instrucao = ctk.CTkLabel(self.container_form, text="Registrar Nova Venda", font=("Arial", 18, "bold"))
+        self.lbl_instrucao.pack(pady=(0, 20), anchor="w")
 
-        # Barra de Busca
-        self.search_entry = ctk.CTkEntry(self.main_frame, placeholder_text="Buscar Venda...", width=400)
-        self.search_entry.pack(pady=20, anchor="w")
+        # Produto
+        self.combo_produto = ctk.CTkComboBox(self.container_form, values=[pro[1] for pro in Produto.listar_produtos()], width=400, height=40)
+        self.combo_produto.set("Selecione o produto")
+        self.combo_produto.pack(pady=10)
+        
+        # Quantidade
+        self.entry_quantidade = ctk.CTkEntry(self.container_form, placeholder_text="Quantidade Vendida", width=400, height=40)
+        self.entry_quantidade.pack(pady=10)
 
-        # Tabela (Treeview) - Para listar os produtos
-        self.style = ttk.Style()
-        self.style.configure("Treeview", rowheight=30, font=("Arial", 10))
-        self.style.configure("Treeview.Heading", font=("Arial", 11, "bold"), foreground=self.cor_roxo)
+        self.combo_cliente = ctk.CTkComboBox(self.container_form, values=[cli[1] for cli in Cliente.listar_clientes()], width=400, height=40)
+        self.combo_cliente.set("Selecione o cliente")
+        self.combo_cliente.pack(pady=10)
         
-        # Criando a tabela com as colunas ID, Nome, Preço, Estoque e Categoria
-        self.tabela = ttk.Treeview(self.main_frame, columns=("ID", "Nome", "Preço", "Estoque","Categoria"), show="headings")
-        self.tabela.heading("ID", text="ID Produto")
-        self.tabela.heading("Nome", text="Nome do Item")
-        self.tabela.heading("Preço", text="Preço")
-        self.tabela.heading("Estoque", text="Estoque")
-        self.tabela.heading("Categoria", text="Categoria")
-        
-        # Ajuste de largura das colunas
-        self.tabela.column("ID", width=80)
-        self.tabela.column("Preço", width=100)
-        
-        self.tabela.pack(fill="both", expand=True)
-        self.carregar_dados_iniciais()
 
-    def todas_vendas(self):
-        vendas = Venda.listar_vendas()
-        for venda in vendas:
-            print(f"ID: {venda[0]}, Produto: {venda[1]}, Quantidade: {venda[2]}, Data: {venda[3]}")
+        # Botão Registrar Venda
+        self.btn_registrar = ctk.CTkButton(self.container_form, text="Registrar Venda", width=200, height=40, command=self.registrar_venda)
+        self.btn_registrar.pack(pady=20)
 
     def voltar_btn(self):
         self.destroy()
@@ -103,4 +72,62 @@ class PageNovaVenda(ctk.CTk):
         app = Page1()
         app.mainloop()
 
+    def criar_card(self, parent, titulo, valor):
+        card = ctk.CTkFrame(parent, width=200, height=100, corner_radius=10, fg_color="#f0f0f0")
+        card.pack(side="left", padx=10, pady=10)
+        
+        label_titulo = ctk.CTkLabel(card, text=titulo, font=("Arial", 12), text_color="gray")
+        label_titulo.pack(pady=(10, 5))
+        
+        label_valor = ctk.CTkLabel(card, text=str(valor), font=("Arial", 20, "bold"), text_color=self.cor_roxo)
+        label_valor.pack(pady=(0, 10))
+        
+        return card
     
+    def registrar_venda(self):
+        nome_produto = self.entry_produto.get()
+        quantidade_vendida = self.entry_quantidade.get()
+
+        if not nome_produto or not quantidade_vendida:
+            CTkMessagebox(title="Erro", message="Por favor, preencha todos os campos.", icon="error")
+            return
+        
+        try:
+            quantidade_vendida = int(quantidade_vendida)
+        except ValueError:
+            CTkMessagebox(title="Erro", message="Quantidade deve ser um número inteiro.", icon="error")
+            return
+        
+        produto = Produto.buscar_por_nome(nome_produto)
+        if not produto:
+            CTkMessagebox(title="Erro", message="Produto não encontrado.", icon="error")
+            return
+        
+        if quantidade_vendida > produto[3]:  # Verifica se há estoque suficiente
+            CTkMessagebox(title="Erro", message="Quantidade vendida excede o estoque disponível.", icon="error")
+            return
+        
+        venda = Venda(produto_id=produto[0], quantidade=quantidade_vendida)
+        venda.registrar()
+        
+        CTkMessagebox(title="Sucesso", message="Venda registrada com sucesso!", icon="check")
+        
+        # Limpa os campos após registrar a venda
+        self.entry_produto.delete(0, ctk.END)
+        self.entry_quantidade.delete(0, ctk.END)
+    
+    def venda_cliente(self):
+        nome_cliente = self.entry_cliente.get()
+        if not nome_cliente:
+            CTkMessagebox(title="Erro", message="Por favor, selecione um cliente.", icon="error")
+            return
+        
+        cliente = Cliente.buscar_por_nome(nome_cliente)
+        if not cliente:
+            CTkMessagebox(title="Erro", message="Cliente não encontrado.", icon="error")
+            return
+        else:
+            cliente = Cliente.compra(cliente[1])  # Atualiza a quantidade de compras do cliente
+        
+
+        return cliente[0]  # Retorna o ID do cliente para associar à venda
