@@ -62,3 +62,16 @@ class Cliente:
             print(f"Erro ao atualizar quantidade de compras: {e}")
         finally:
             close_connection(connection)
+
+    def total_clientes():
+        connection = create_connection()
+        cursor = connection.cursor()
+        try:
+            cursor.execute("SELECT COUNT(*) FROM clientes")
+            total = cursor.fetchone()[0]
+            return total
+        except Exception as e:
+            print(f"Erro ao contar clientes: {e}")
+            return 0
+        finally:
+            close_connection(connection)
