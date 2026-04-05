@@ -140,7 +140,7 @@ class PageVendas(ctk.CTk):
         self.btn_novo = ctk.CTkButton(
             self.header_frame,
             text="+ Nova Venda", 
-            fg_color=self.cor_roxo, hover_color=self.cor_roxo, command=self.abrir_nova_venda)
+            fg_color=self.cor_roxo, hover_color=self.cor_roxo, command=self.nova_venda)
         
         
         self.btn_novo.pack(side="right")
@@ -163,12 +163,12 @@ class PageVendas(ctk.CTk):
         self.style.configure("Treeview.Heading", font=("Arial", 11, "bold"), foreground=self.cor_roxo)
         
         # Criando a tabela com as colunas ID, Nome, Preço, Estoque e Categoria
-        self.tabela = ttk.Treeview(self.main_frame, columns=("ID", "Produto", "Preço", "Quantidade","Desconto, Valor, Data"), show="headings")
+        self.tabela = ttk.Treeview(self.main_frame, columns=("ID", "Produto", "Preço", "Quantidade","Desconto", "Valor", "Data"), show="headings")
         self.tabela.heading("ID", text="ID Venda")
         self.tabela.heading("Produto", text="Produto")
         self.tabela.heading("Preço", text="Preço")
         self.tabela.heading("Quantidade", text="Quantidade")
-        self.tabela.heading("Desconto, Valor", text="Desconto")
+        self.tabela.heading("Desconto", text="Desconto")
         self.tabela.heading("Valor", text="Valor")
         self.tabela.heading("Data", text="Data")
         
@@ -195,7 +195,7 @@ class PageVendas(ctk.CTk):
     def todas_vendas(self):
         vendas = Venda.listar_vendas()
         for venda in vendas:
-            print(f"ID: {venda[0]}, Produto: {venda[1]}, Quantidade: {venda[2]}, Desconto: {venda[3]}, Valor: {venda[4]}, Data: {venda[5]}")
+            print(f"ID: {venda[0]}, Produto: {venda[1]}, Preço: {venda[2]}, Quantidade: {venda[3]}, Desconto: {venda[4]}, Valor: {venda[5]}, Data: {venda[6]}")
 
 
     def nova_venda(self):
@@ -218,8 +218,9 @@ class PageVendas(ctk.CTk):
             self.tabela.insert("", "end", values=(
                 item[0], 
                 item[1], 
-                item[2], 
+                f"R$ {item[2]:.2f}", 
                 item[3],
                 f"R$ {item[4]:.2f}",
-                item[5]
+                f"R$ {item[5]:.2f}",
+                item[6]
             ))
