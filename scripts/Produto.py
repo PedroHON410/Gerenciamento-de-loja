@@ -158,3 +158,17 @@ class Produto:
             return 0
         finally:
             close_connection(connection)
+    
+    def buscar_por_nome(nome_produto):
+        connection = create_connection()
+        cursor = connection.cursor()
+        try:
+            select_query = """ SELECT id, nome, preco, qtd_estoque FROM produtos WHERE nome = %s"""
+            cursor.execute(select_query, (nome_produto,))
+            produto = cursor.fetchone()
+            return produto
+        except Exception as e:
+            print(f"Erro ao buscar produto por nome: {e}")
+            return None
+        finally:
+            close_connection(connection)

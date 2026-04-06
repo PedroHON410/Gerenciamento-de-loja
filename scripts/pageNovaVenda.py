@@ -57,6 +57,11 @@ class PageNovaVenda(ctk.CTk):
         self.entry_quantidade = ctk.CTkEntry(self.container_form, placeholder_text="Quantidade Vendida", width=400, height=40)
         self.entry_quantidade.pack(pady=10)
 
+        # Desconto
+        self.entry_desconto = ctk.CTkEntry(self.container_form, placeholder_text="Desconto (%)", width=400, height=40)
+        self.entry_desconto.pack(pady=10)
+
+        # Cliente
         self.combo_cliente = ctk.CTkComboBox(self.container_form, values=[cli[1] for cli in Cliente.listar_clientes()], width=400, height=40)
         self.combo_cliente.set("Selecione o cliente")
         self.combo_cliente.pack(pady=10)
@@ -85,8 +90,9 @@ class PageNovaVenda(ctk.CTk):
         return card
     
     def registrar_venda(self):
-        nome_produto = self.entry_produto.get()
+        nome_produto = self.combo_produto.get()
         quantidade_vendida = self.entry_quantidade.get()
+        desconto = self.entry_desconto.get()
 
         if not nome_produto or not quantidade_vendida:
             CTkMessagebox(title="Erro", message="Por favor, preencha todos os campos.", icon="error")
@@ -107,8 +113,8 @@ class PageNovaVenda(ctk.CTk):
             CTkMessagebox(title="Erro", message="Quantidade vendida excede o estoque disponível.", icon="error")
             return
         
-        venda = Venda(produto_id=produto[0], quantidade=quantidade_vendida)
-        venda.registrar()
+        venda = Venda(produto_id=produto[0], quantidade=quantidade_vendida, desconto=desconto, cliente_id=self.venda_cliente())
+        venda.processar_venda()
         
         CTkMessagebox(title="Sucesso", message="Venda registrada com sucesso!", icon="check")
         
