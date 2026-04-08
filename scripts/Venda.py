@@ -1,12 +1,13 @@
 from db_gerenciamento import create_connection, close_connection
 from decimal import Decimal
 class Venda:
-    def __init__(self, produto_nome, qtd_venda, desconto=0):
+    def __init__(self, produto_nome, qtd_venda, desconto=0, id_cliente=None):
         self.produto_nome = produto_nome
         self.qtd_venda = qtd_venda
         self.desconto = desconto
         self.id_produto = None
         self.valor_unitario = 0
+        self.id_cliente = id_cliente
 
     def processar_venda(self):
         connection = create_connection()
@@ -25,16 +26,17 @@ class Venda:
             self.valor_unitario = produto[1]
 
             # Cálculo correto do desconto percentual
-            desconto_decimal = Decimal(str(self.desconto)) / Decimal("100")
-            total_bruto = self.valor_unitario * self.qtd_venda
-            valor_total = total_bruto * (Decimal("1") - desconto_decimal)
+            if self.desconto != 0 or self.desconto != None:
+                valor_total = self.valor_unitario * self.qtd_venda * (1 - Decimal(self.desconto) / 100)
+            else:
+                valor_total = self.valor_unitario * self.qtd_venda
 
             # Insere na tabela de vendas
             insert_query = """ 
-                INSERT INTO vendas (id_produto, qtd_venda, desconto, valor_total) 
-                VALUES (%s, %s, %s, %s) 
+                INSERT INTO vendas (id_produto, qtd_venda, desconto, valor_total, data_venda, id_cliente) 
+                VALUES (%s, %s, %s, %s, NOW(), %s) 
             """
-            cursor.execute(insert_query, (self.id_produto, self.qtd_venda, self.desconto, valor_total))
+            cursor.execute(insert_query, (self.id_produto, self.qtd_venda, self.desconto, valor_total, self.id_cliente))
 
             # Atualiza o estoque (Atenção ao nome da coluna: id ou id_produto?)
             update_query = "UPDATE produtos SET qtd_estoque = qtd_estoque - %s WHERE id = %s"
@@ -57,6 +59,7 @@ class Venda:
                 SELECT v.id, p.nome, p.preco, v.qtd_venda, v.desconto, v.valor_total, v.data_venda
                 FROM vendas v
                 JOIN produtos p ON v.id_produto = p.id
+                JOIN clientes c ON v.id_cliente = c.id
                 ORDER BY v.data_venda DESC
                 """
             cursor.execute(select_query)
@@ -87,4 +90,4 @@ class Venda:
         except Exception as e:
             print(f"Erro ao calcular receita: {e}")
             return 0
-            
+        

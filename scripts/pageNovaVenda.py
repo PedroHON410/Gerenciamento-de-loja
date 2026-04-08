@@ -113,7 +113,7 @@ class PageNovaVenda(ctk.CTk):
             CTkMessagebox(title="Erro", message="Quantidade vendida excede o estoque disponível.", icon="error")
             return
         
-        venda = Venda(produto_id=produto[0], quantidade=quantidade_vendida, desconto=desconto, cliente_id=self.venda_cliente())
+        venda = Venda(produto_id=produto[0], quantidade=quantidade_vendida, desconto=desconto, id_cliente=self.venda_cliente())
         venda.processar_venda()
         
         CTkMessagebox(title="Sucesso", message="Venda registrada com sucesso!", icon="check")
@@ -137,17 +137,3 @@ class PageNovaVenda(ctk.CTk):
         
 
         return cliente[0]  # Retorna o ID do cliente para associar à venda
-    
-    def desconto(self):
-        desconto = self.entry_desconto.get()
-        if not desconto:
-            return 0  # Sem desconto
-        try:
-            desconto = float(desconto)
-            if desconto < 0 or desconto > 100:
-                CTkMessagebox(title="Erro", message="Desconto deve ser entre 0% e 100%.", icon="error")
-                return None
-            return desconto
-        except ValueError:
-            CTkMessagebox(title="Erro", message="Desconto deve ser um número.", icon="error")
-            return None
