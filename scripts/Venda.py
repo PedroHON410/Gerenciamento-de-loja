@@ -1,13 +1,12 @@
 from db_gerenciamento import create_connection, close_connection
 from decimal import Decimal
 class Venda:
-    def __init__(self, produto_nome, qtd_venda, desconto=0, id_cliente=None):
+    def __init__(self, produto_nome, qtd_venda, desconto=0):
         self.produto_nome = produto_nome
         self.qtd_venda = qtd_venda
         self.desconto = desconto
         self.id_produto = None
         self.valor_unitario = 0
-        self.id_cliente = id_cliente
 
     def processar_venda(self):
         connection = create_connection()
@@ -59,7 +58,6 @@ class Venda:
                 SELECT v.id, p.nome, p.preco, v.qtd_venda, v.desconto, v.valor_total, v.data_venda
                 FROM vendas v
                 JOIN produtos p ON v.id_produto = p.id
-                JOIN clientes c ON v.id_cliente = c.id
                 ORDER BY v.data_venda DESC
                 """
             cursor.execute(select_query)
