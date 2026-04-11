@@ -1,7 +1,7 @@
 from db_gerenciamento import create_connection, close_connection
 from decimal import Decimal
 class Venda:
-    def __init__(self, produto_nome, qtd_venda, desconto=0):
+    def __init__(self, produto_nome, qtd_venda, desconto=0 ):
         self.produto_nome = produto_nome
         self.qtd_venda = qtd_venda
         self.desconto = desconto
@@ -32,10 +32,10 @@ class Venda:
 
             # Insere na tabela de vendas
             insert_query = """ 
-                INSERT INTO vendas (id_produto, qtd_venda, desconto, valor_total, data_venda, id_cliente) 
+                INSERT INTO vendas (nome, qtd_venda, desconto, valor_total, data_venda, id_cliente) 
                 VALUES (%s, %s, %s, %s, NOW(), %s) 
             """
-            cursor.execute(insert_query, (self.id_produto, self.qtd_venda, self.desconto, valor_total, self.id_cliente))
+            cursor.execute(insert_query, (self.produto_nome, self.qtd_venda, self.desconto, valor_total, self.id_cliente))
 
             # Atualiza o estoque (Atenção ao nome da coluna: id ou id_produto?)
             update_query = "UPDATE produtos SET qtd_estoque = qtd_estoque - %s WHERE id = %s"
