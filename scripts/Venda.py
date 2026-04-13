@@ -1,10 +1,11 @@
 from db_gerenciamento import create_connection, close_connection
 from decimal import Decimal
 class Venda:
-    def __init__(self, produto_nome, qtd_venda, desconto=0 ):
+    def __init__(self, produto_nome, qtd_venda, desconto=0, id_cliente=None):
         self.produto_nome = produto_nome
         self.qtd_venda = qtd_venda
         self.desconto = desconto
+        self.id_cliente = id_cliente
         self.id_produto = None
         self.valor_unitario = 0
 
@@ -32,10 +33,10 @@ class Venda:
 
             # Insere na tabela de vendas
             insert_query = """ 
-                INSERT INTO vendas (nome, qtd_venda, desconto, valor_total, data_venda, id_cliente) 
+                INSERT INTO vendas (id_produto, qtd_venda, desconto, valor_total, data_venda, cliente_id) 
                 VALUES (%s, %s, %s, %s, NOW(), %s) 
             """
-            cursor.execute(insert_query, (self.produto_nome, self.qtd_venda, self.desconto, valor_total, self.id_cliente))
+            cursor.execute(insert_query, (self.id_produto, self.qtd_venda, self.desconto, valor_total, self.id_cliente))
 
             # Atualiza o estoque (Atenção ao nome da coluna: id ou id_produto?)
             update_query = "UPDATE produtos SET qtd_estoque = qtd_estoque - %s WHERE id = %s"
@@ -55,9 +56,10 @@ class Venda:
         cursor = connection.cursor()
         try:
             select_query = """
-                SELECT v.id, p.nome, p.preco, v.qtd_venda, v.desconto, v.valor_total, v.data_venda
+                SELECT v.id, p.nome, p.preco, v.qtd_venda, v.desconto, v.valor_total, v.data_venda, v.cliente_id
                 FROM vendas v
                 JOIN produtos p ON v.id_produto = p.id
+                JOIN clientes c ON v.cliente_id = c.id
                 ORDER BY v.data_venda DESC
                 """
             cursor.execute(select_query)

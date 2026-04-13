@@ -113,14 +113,15 @@ class PageNovaVenda(ctk.CTk):
             CTkMessagebox(title="Erro", message="Quantidade vendida excede o estoque disponível.", icon="error")
             return
         
-        venda = Venda(produto_nome=self.combo_produto.get(), qtd_venda=quantidade_vendida, desconto=desconto)
+        venda = Venda(produto_nome=self.combo_produto.get(0), qtd_venda=quantidade_vendida, desconto=desconto)
         venda.processar_venda()
         
         CTkMessagebox(title="Sucesso", message="Venda registrada com sucesso!", icon="check")
         
         # Limpa os campos após registrar a venda
-        self.entry_produto.delete(0, ctk.END)
+        self.combo_produto.set("Selecione o produto")
         self.entry_quantidade.delete(0, ctk.END)
+        self.entry_desconto.delete(0, ctk.END)
     
     def venda_cliente(self):
         nome_cliente = self.entry_cliente.get()
@@ -134,6 +135,4 @@ class PageNovaVenda(ctk.CTk):
             return
         else:
             cliente = Cliente.compra(cliente[1])  # Atualiza a quantidade de compras do cliente
-        
-
         return cliente[0]  # Retorna o ID do cliente para associar à venda
