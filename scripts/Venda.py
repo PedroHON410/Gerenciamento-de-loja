@@ -56,10 +56,9 @@ class Venda:
         cursor = connection.cursor()
         try:
             select_query = """
-                SELECT v.id, p.nome, p.preco, v.qtd_venda, v.desconto, v.valor_total, v.data_venda, v.cliente_id
+                SELECT v.id, p.nome, p.preco, v.qtd_venda, v.desconto, v.valor_total, v.data_venda
                 FROM vendas v
                 JOIN produtos p ON v.id_produto = p.id
-                JOIN clientes c ON v.cliente_id = c.id
                 ORDER BY v.data_venda DESC
                 """
             cursor.execute(select_query)
