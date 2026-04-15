@@ -45,9 +45,9 @@ class PageNewProduct(ctk.CTk):
         self.lbl_instrucao.pack(pady=(0, 20), anchor="w")
 
         # Nome
-        self.combo_produto = ctk.CTkComboBox(self.container_form, values=[pro[1] for pro in Produto.listar_produtos()], width=400, height=40)
-        self.combo_produto.set("Selecione o produto")
-        self.combo_produto.pack(pady=10)
+        self.entry_nome = ctk.CTkEntry(self.container_form, placeholder_text="Nome do Produto", width=400, height=40)
+        self.entry_nome.pack(pady=10)
+        
         
 
         # Preço
